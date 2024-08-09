@@ -1,0 +1,323 @@
+body{
+    /* background: rgb(0, 0, 0); */
+    background: rgb(19, 1, 39);
+    /* background: linear-gradient(90deg, rgb(59, 1, 104) , rgb(41, 10, 55)); */
+    /* background-color: rgb(15, 7, 31); */
+    margin: 0;
+}
+
+#header{
+    /* background: linear-gradient(0deg, rgb(0, 0, 0) , rgb(4, 0, 8)); */
+    background: linear-gradient(0deg, rgb(0, 0, 0), rgb(0, 0, 0));
+    min-height: 100px;
+    margin: 20px 20px 40px 20px;
+    box-shadow: 0px 0px 1px 1px rgb(94, 3, 178);
+    /* box-shadow: 0px 0px 8px 3px rgb(0, 0, 0); */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 5px;
+    /* padding: 0px 40px; */
+}
+
+h1{
+    color: white;
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+}
+
+.search-wrapper{
+    /* background: linear-gradient(0deg, rgb(100, 1, 175) , rgb(44, 2, 63)); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    /* box-shadow: 0px 0px 8px 4px rgb(0, 0, 0); */
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* padding: 0px 30px; */
+    border-radius: 5px;
+    /* margin-left: 30px; */
+}
+
+#searchInput{
+    background: rgb(192, 108, 215);
+    color: white;
+    height: 30px;
+    width: 300px;
+    min-width: 40px;
+    border: 0px solid rgb(0, 0, 0);;
+    border-radius: 5px;
+    font-size: 15px;
+    padding-left: 20px;
+	outline: none;
+}
+
+#searchInput::placeholder{
+    color: white;
+    opacity: 0.8;
+}
+
+#button{
+    height: 32px;
+    width: 80px;
+    margin-left: 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    background: linear-gradient(0deg, rgb(166, 68, 208), rgb(140, 1, 182));
+    color: white;
+}
+
+#button:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.container{
+    display: grid;
+    grid-template-columns:  repeat(auto-fill, minmax(250px, 1fr));
+    justify-items: center;
+    column-gap: 50px;
+    row-gap: 50px;
+    padding: 0px 40px 40px 40px;
+}
+
+.cards{
+    background-color: rgb(0, 0, 0);
+    /* background: linear-gradient(-135deg, rgb(18, 0, 26), rgba(26, 0, 28, 0.708)); */
+    /* background: linear-gradient(0deg, rgb(0, 0, 0), rgb(9, 0, 20)); */
+    /* outline: 1px solid rgb(32, 32, 32); */
+    border-radius: 12px;
+    /* outline-offset: -16px; */
+    height: 320px;
+    width: 275px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0px 0px 1px 1px rgb(94, 3, 178);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cards:hover{
+    /* transform: scale(0.95); */
+    box-shadow: 0px 0px 10px 2px rgb(94, 3, 178);
+    /* outline-offset: 0px; */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* .cards:hover::after{
+    transform: scale(0.95);
+    box-shadow: 0px 0px 10px 3px rgb(14, 13, 13);
+    outline-offset: 0px;
+    transition: all 0.2s ease-out;
+} */
+
+img{
+    height: 220px;
+    width: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    /*box-shadow: 0px 0px 1px 1px rgb(94, 3, 178);*/
+    margin-bottom: 10px;
+}
+
+.cards:hover img{
+    padding: 0px;
+    height: 220px;
+    width: 220px;
+    overflow: hidden;
+    transform: scale(0.95);
+}
+
+.cap{
+    color: #ffffff;
+    height: 30px;
+    width: 250px;
+    font-size: 20px;
+    /* margin-top: 15px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal__wrapper{
+    position: fixed;
+    left:0;
+    top:0;
+    background: rgba(0, 0, 0, 0.6);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s ease-in-out;
+}
+
+.modal__container{
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(132, 0, 255);
+    height: 500px;
+    width: 560px;
+    max-width: 80%;
+    border-radius: 5px;
+    padding: 20px;
+    position: relative;
+    transition: .3s ease-out;
+    overflow: scroll;
+}
+
+.modal_header{
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-content: center;
+    font-size: 30px;
+}
+
+.modal__container button.close{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 32px;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.modal__container button.close{
+    color: white;
+}
+
+.modal__container button.close:hover{
+    color: #6B46C1;
+}
+
+.modal_body{
+    position: relative;
+    top: 20px;
+}
+
+.container1{
+    /* border: 2px dashed white;
+    border-radius: 20px; */
+    padding: 10px;
+    border-bottom: 1px solid rgb(132, 0, 255);
+}
+
+.title{
+    /* border: 2px dashed white;
+    border-radius: 20px; */
+    padding: 20px;
+    margin: 15px 0px;
+    border-bottom: 1px solid rgb(132, 0, 255);
+}
+
+.instructions, .ingredients, .measurements{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.container1{
+    display: grid;
+    grid-template-columns:  repeat(auto-fill, minmax(250px, 1fr));
+    justify-items: center;
+}
+
+.active{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal__wrapper.active .modal__container{
+    transform: translateY(0px);
+}
+
+::-webkit-scrollbar{
+    width: 1vw;
+    border-color: antiquewhite;
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #6706bc;
+    border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: #9000ff;
+}
+
+::-webkit-scrollbar-track{
+    background-color: #0b0b0b;
+}
+
+@media (max-width: 1000px){
+    #header{
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1{
+        margin-bottom: 0px;
+    }
+    
+}
+
+@media (max-width: 500px){
+    h1{
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .search-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #searchInput{
+        width: 200px;
+        margin-bottom: 10px;
+    }
+
+    #button{
+        margin-bottom: 10px;
+    }
+
+    .cards{
+        height: 200px;
+        width: 180px;
+    }
+
+    img{
+        border-radius: 5%;
+        height: 155px;
+        width: 155px;
+        overflow: hidden;
+        margin-bottom: 0px;
+    }
+
+    .cards:hover img{
+        padding: 0px;
+        height: 155px;
+        width: 155px;
+        overflow: hidden;
+        transform: scale(0.95);
+    }
+
+    .cap{
+        height: 20px;
+        width: 180px;
+        font-size: 15px;
+    }
+}
