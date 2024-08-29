@@ -1,91 +1,98 @@
 // Fetching from API
 
-const appendData = document.getElementById('appendData');
+const appendData = document.getElementById("appendData");
 
 let updatedDrinks = [];
 
-let cocktailAPI = fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
-    .then(res=>{
-        if (!res.ok){
-            console.log('Problem')
-            return;
-        }
-        console.log(res.status);
-        console.log(res.ok);
-        return res.json();
-    })
-    cocktailAPI.then(data=>{
+let cocktailAPI = fetch(
+  "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a"
+).then((res) => {
+  if (!res.ok) {
+    console.log("Problem");
+    return;
+  }
+  console.log(res.status);
+  console.log(res.ok);
+  return res.json();
+});
+cocktailAPI.then((data) => {
+  let value = "";
 
-        let value = '';
+  // console.log(data);
 
-        // console.log(data);
+  updatedDrinks = data.drinks.filter((drinks) =>
+    drinks.strDrink.includes(value)
+  );
 
-        updatedDrinks = data.drinks.filter(drinks => drinks.strDrink.includes(value));
-
-        let cocktail = '';
-        updatedDrinks.forEach(drinks=>{
-            cocktail += `
+  let cocktail = "";
+  updatedDrinks.forEach((drinks) => {
+    cocktail += `
                 <div class="cards">
                     <img src="${drinks.strDrinkThumb}" alt="${drinks.strDrink}">
                     <div class="cap">${drinks.strDrink}</div>
                 </div>
             `;
-        });
-        appendData.innerHTML = cocktail;
-    });
-
+  });
+  appendData.innerHTML = cocktail;
+});
 
 // Displays searched cards after clicking Search button
 
-function display(){
-    let value = document.getElementById("searchInput").value;
-    search(value);
+function display() {
+  let value = document.getElementById("searchInput").value;
+  search(value);
 }
 
-function search(value){
-    cocktailAPI.then(data=>{
+function search(value) {
+  cocktailAPI.then((data) => {
+    updatedDrinks = data.drinks.filter((drinks) =>
+      drinks.strDrink.toLowerCase().includes(value)
+    );
 
-        updatedDrinks = data.drinks.filter(drinks => drinks.strDrink.toLowerCase().includes(value));
-
-        // same as above
-        let cocktail = '';
-        updatedDrinks.forEach(drinks=>{
-            cocktail += `
+    // same as above
+    let cocktail = "";
+    updatedDrinks.forEach((drinks) => {
+      cocktail += `
                 <div class="cards">
                         <img src="${drinks.strDrinkThumb}" alt="${drinks.strDrink}">
                         <div class="cap">${drinks.strDrink}</div>
                 </div>
             `;
-        });
-        appendData.innerHTML = cocktail;
     });
+    appendData.innerHTML = cocktail;
+  });
 }
-
 
 // Modal Popup
 
-const container = document.querySelector('.container');
-const modalWrapper = document.querySelector('.modal__wrapper');
-const closeBtn = document.querySelector('.modal__wrapper');
-const addData = document.getElementById('addData');
+const container = document.querySelector(".container");
+const modalWrapper = document.querySelector(".modal__wrapper");
+const closeBtn = document.querySelector(".modal__wrapper");
+const addData = document.getElementById("addData");
 
-container.addEventListener('click',function(e){
-    if(( e.target.tagName == 'IMG') || (e.target.classList.contains('cap')) || (e.target.classList.contains('cards'))){
-        const cardIndex = Array.from(this.children).indexOf(e.target.closest('.cards'));
-        modalWrapper.classList.add('active');
-        previewFunction(cardIndex, updatedDrinks);
-    }
+container.addEventListener("click", function (e) {
+  if (
+    e.target.tagName == "IMG" ||
+    e.target.classList.contains("cap") ||
+    e.target.classList.contains("cards")
+  ) {
+    const cardIndex = Array.from(this.children).indexOf(
+      e.target.closest(".cards")
+    );
+    modalWrapper.classList.add("active");
+    previewFunction(cardIndex, updatedDrinks);
+  }
 });
 
-closeBtn.addEventListener('click',function(e){
-    if((e.target.classList.contains('close'))){
-        modalWrapper.classList.remove('active');
-    }
+closeBtn.addEventListener("click", function (e) {
+  if (e.target.classList.contains("close")) {
+    modalWrapper.classList.remove("active");
+  }
 });
 
-function previewFunction(cardIndex, updatedDrinks){
-    const drinks = updatedDrinks[cardIndex];
-    const preview = `
+function previewFunction(cardIndex, updatedDrinks) {
+  const drinks = updatedDrinks[cardIndex];
+  const preview = `
         <div class="modal__container">
             <div class="modal_header">
                 <button class="close">&times;</button>
@@ -138,5 +145,5 @@ function previewFunction(cardIndex, updatedDrinks){
             </div>
         </div>`;
 
-    addData.innerHTML = preview;
+  addData.innerHTML = preview;
 }

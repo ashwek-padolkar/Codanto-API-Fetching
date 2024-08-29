@@ -2,94 +2,106 @@
 
 let filteredDrinks = [];
 
-let cocktailAPI = fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')           // API URL
-    .then(res=> {                                                                          // promise chain
-        if (!res.ok){
-            console.log('Problem')
-            return;
-        }
-        console.log(res.status);                   // response status: 200
-        console.log(res.ok);
-        return res.json();                         // converts the response body(data) to JSON format
-    })
-    cocktailAPI.then(data =>{
+let cocktailAPI = fetch(
+  "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a"
+) // API URL
+  .then((res) => {
+    // promise chain
+    if (!res.ok) {
+      console.log("Problem");
+      return;
+    }
+    console.log(res.status); // response status: 200
+    console.log(res.ok);
+    return res.json(); // converts the response body(data) to JSON format
+  });
+cocktailAPI.then((data) => {
+  let value = ""; // Initializes value from the search box to empty string
 
-        let value = '';                            // Initializes value from the search box to empty string
+  // console.log(data);                      // data contains drinks array[25]
 
-        // console.log(data);                      // data contains drinks array[25]
+  // data.drinks: data inside the drinks array
+  // filter(drinks => drinks.strDrink.includes(value)): filter updates the drinks array by checking each element that includes value(here value = '')
+  //drinks.strDrink.includes(value) will always return true for every drink object. This is because every string includes an empty string by default.
+  filteredDrinks = data.drinks.filter((drinks) =>
+    drinks.strDrink.includes(value)
+  ); // stores this in filteredDrinks
 
-        // data.drinks: data inside the drinks array
-        // filter(drinks => drinks.strDrink.includes(value)): filter updates the drinks array by checking each element that includes value(here value = '')
-        filteredDrinks = data.drinks.filter(drinks => drinks.strDrink.includes(value));     // stores this in filteredDrinks
-
-        let cocktail = '';                         // Initializes cocktail to empty string
-        filteredDrinks.forEach(drinks =>{          // adds HTML data of all cards to cocktail string using filteredDrinks array using forEach loop
-            cocktail += `
+  let cocktail = ""; // Initializes cocktail to empty string
+  filteredDrinks.forEach((drinks) => {
+    // adds HTML data of all cards to cocktail string using filteredDrinks array using forEach loop
+    cocktail += `
                 <div class="cards">
                     <img src="${drinks.strDrinkThumb}" alt="${drinks.strDrink}">
                     <div class="cap">${drinks.strDrink}</div>
                 </div>
             `;
-        });
-        appendData.innerHTML = cocktail;           // puts the above HTML content inside the element having id="appendData" in index.html
-    });
-
+  });
+  appendData.innerHTML = cocktail; // puts the above HTML content inside the element having id="appendData" in index.html
+});
 
 // Displays searched cards after clicking Search button
 
-function display(){
-    let value = document.getElementById("searchInput").value;                 // takes value of the element having id="searchInput"
-    search(value);                                                            // pass the above value in search function
+function display() {
+  let value = document.getElementById("searchInput").value; // takes value of the element having id="searchInput"
+  search(value); // pass the above value in search function
 }
 
 function search(value) {
-    cocktailAPI.then(data => {
-        filteredDrinks = data.drinks.filter(drinks => drinks.strDrink.toLowerCase().includes(value)); // same as above but (here value='searched by the user')
+  cocktailAPI.then((data) => {
+    filteredDrinks = data.drinks.filter((drinks) =>
+      drinks.strDrink.toLowerCase().includes(value)
+    ); // same as above but (here value='searched by the user')
 
-        // same as above
-        let cocktail = '';
-        filteredDrinks.forEach(drinks => {
-            cocktail += `
+    // same as above
+    let cocktail = "";
+    filteredDrinks.forEach((drinks) => {
+      cocktail += `
                 <div class="cards">
                     <img src="${drinks.strDrinkThumb}" alt="${drinks.strDrink}">
                     <div class="cap">${drinks.strDrink}</div>
                 </div>
             `;
-        });
-        appendData.innerHTML = cocktail;
     });
+    appendData.innerHTML = cocktail;
+  });
 }
-
 
 // Modal Popup
 
 // selects elements inside the element having class="container"
 // single element: querySelector
 // many elemens: querySelectorAll
-const container = document.querySelector('.container');
-const modalWrapper = document.querySelector('.modal__wrapper');
-const closeBtn = document.querySelector('.modal__wrapper');
+const container = document.querySelector(".container");
+const modalWrapper = document.querySelector(".modal__wrapper");
+const closeBtn = document.querySelector(".modal__wrapper");
 
-// 
-container.addEventListener('click', function (e) {
-    if (( e.target.tagName === 'IMG') || (e.target.classList.contains('cap')) || (e.target.classList.contains('cards'))) {
-        // Array.from(this.children): converts the children of container to an array
-        // indexOf(e.target.closest('.cards'): finds the index of the closest ancestor element with the class cards
-        const cardIndex = Array.from(this.children).indexOf(e.target.closest('.cards'));
-        modalWrapper.classList.add('active');
-        previewFunction(cardIndex, filteredDrinks); // Pass the filtered drinks array
-    }
+container.addEventListener("click", function (e) {
+  if (
+    e.target.tagName === "IMG" ||
+    e.target.classList.contains("cap") ||
+    e.target.classList.contains("cards")
+  ) {
+    // Array.from(this.children): this.children refers to all child elements of this (container) and Array.from converts the children of container to an array
+    // indexOf(e.target.closest('.cards'): .closest(selector) method starts from the element on which it is called (e.target in this case) and traverses up the DOM tree until it finds an element that matches the specified selector (.cards).
+    // cardIndex finally holds the index position of the card element that is present in the array.
+    const cardIndex = Array.from(this.children).indexOf(
+      e.target.closest(".cards")
+    );
+    modalWrapper.classList.add("active");
+    previewFunction(cardIndex, filteredDrinks); // Pass the filtered drinks array
+  }
 });
 
-closeBtn.addEventListener('click', function(e) {
-    if ((e.target.classList.contains('close'))) {
-        modalWrapper.classList.remove('active');
-    }
+closeBtn.addEventListener("click", function (e) {
+  if (e.target.classList.contains("close")) {
+    modalWrapper.classList.remove("active");
+  }
 });
 
 function previewFunction(cardIndex, filteredDrinks) {
-    const drinks = filteredDrinks[cardIndex];
-    const preview = `
+  const drinks = filteredDrinks[cardIndex];
+  const preview = `
         <div class="modal__container">
             <div class="header">
                 <button class="close">&times;</button>
@@ -142,5 +154,5 @@ function previewFunction(cardIndex, filteredDrinks) {
             </div>
         </div>`;
 
-    addData.innerHTML = preview;
+  addData.innerHTML = preview;
 }
